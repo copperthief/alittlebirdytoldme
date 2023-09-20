@@ -1,29 +1,40 @@
 use std::fs;
+use rand::Rng;
+
+struct Quote {
+    quote : String,
+    quotee : String,
+    date : Option<String>,
+    work : Option<String>,
+    author : Option<String>,
+}
 
 fn main() {
-    let mut file = fs::read_to_string("../res/quotes.txt")
-        .expect("could not read quotes file");
 
-    println!("{quotes_file}");
-}
+    let mut quotes : Vec<Quote> = Vec::new();
 
-fn load(File file) {
-    if let Ok(lines) = read_lines("../res/quotes") {
+    if let Ok(data) = fs::read_to_string("res/quotes.txt") {
+        let lines = data.lines();
         for line in lines {
-            let chars = lines.chars();
-            if chars[0] == 'Q' {
-                
-            }
+            let parts : Vec<&str> = line.split("-").collect();
+            quotes.push(Quote {
+                quote: parts[0].to_owned(),
+                quotee: parts[1].to_owned(),
+                date: None,
+                work: None,
+                author: None
+            }) 
         }
     }
+    
+    let r = rand::thread_rng().gen_range(0..quotes.len());
+    let output = format!("{}-{}", quotes[r].quote.clone(), quotes[r].quotee.clone());
+    println!("{}", output);
+    
 }
 
-fn add(String file, String quote, String author, String time) {
-    let mut file = OpenOptions::new()
-        .write(true)
-        .append(true)
-        .open("../res/quotes.txt")
-        .unwrap();
 
-
+fn add ()
+{
+    
 }
